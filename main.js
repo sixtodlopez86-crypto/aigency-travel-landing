@@ -29,7 +29,7 @@ const translations = {
         comp_row2: "Velocidad de Propuesta",
         comp_ab_row2: "8 Minutos (IA)",
         comp_other_row2: "Plantillas Rígidas",
-        comp_manual_row2: "3 Horas (Manual)",
+        comp_manual_row2: "3 Hours (Manual)",
 
         comp_row3: "Conciliación Financiera",
         comp_ab_row3: "100% Recuperación",
@@ -170,15 +170,15 @@ const translations = {
         form_placeholder_agency: "Your Agency Trade Name",
         form_placeholder_email: "VIP Email (Where we define the Map)",
         form_btn: "I WANT MY ROADMAP!",
-        form_disclaimer: "No spam. Only high-level strategic value.",
+        form_disclaimer: "Sin spam. Solo valor estratégico de alto nivel.",
 
-        form_submitting: "Calculating your Map...",
-        form_success: "Congratulations! 🎉\n\nYour request for the \"Treasure Map\" has been processed.\nAn AIgency Boost advisor will contact you via WhatsApp shortly to schedule your free audit.",
+        form_submitting: "Calculando tu Mapa...",
+        form_success: "¡Felicidades! 🎉\n\nTu solicitud para el \"Mapa del Tesoro\" ha sido procesada.\nUn asesor de AIgency Boost te contactará por WhatsApp en breve para agendar tu auditoría sin costo.",
 
-        footer_desc: "Transforming travel agencies into ROI-driven tech powerhouses.",
-        footer_links_title: "Quick Links",
-        footer_contact_title: "Corporate Contact",
-        footer_copyright: "&copy; 2026 AIgency Boost. All rights reserved. | \"Boost Your Future with AI\""
+        footer_desc: "Transformamos agencias de viajes en potencias tecnológicas impulsadas por ROI.",
+        footer_links_title: "Enlaces Rápidos",
+        footer_contact_title: "Contacto Corporativo",
+        footer_copyright: "&copy; 2026 AIgency Boost. Todos los derechos reservados. | \"Boost Your Future with AI\""
     }
 };
 
@@ -266,7 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lead Form Submission
     const leadForm = document.getElementById('leadForm');
-    const WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE"; // REPLACE WITH YOUR N8N WEBHOOK URL
+    // ⚠️ PRE-CONFIGURED URL: Matches the 'path' in the crm_lead_workflow.json file
+    const WEBHOOK_URL = "https://n8n.srv924314.hstgr.cloud/webhook/landing-leads"; 
 
     if (leadForm) {
         leadForm.addEventListener('submit', async (e) => {

@@ -264,30 +264,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Form Simulation
+    // Lead Form Submission
     const leadForm = document.getElementById('leadForm');
+    const WEBHOOK_URL = "YOUR_WEBHOOK_URL_HERE"; // REPLACE WITH YOUR N8N WEBHOOK URL
+
     if (leadForm) {
-        leadForm.addEventListener('submit', (e) => {
+        leadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = leadForm.querySelector('button[type="submit"]');
 
-            // Get current language text for button states
             const submittingText = translations[currentLang]['form_submitting'];
             const successText = translations[currentLang]['form_success'];
-            const originalTextKey = submitBtn.getAttribute('data-i18n'); // Should be 'form_btn'
-
+            const originalTextKey = submitBtn.getAttribute('data-i18n');
             const originalText = translations[currentLang][originalTextKey] || submitBtn.innerText;
 
+            // 1. Lock UI
             submitBtn.innerText = submittingText;
             submitBtn.disabled = true;
 
-            // Simulate high-end processing
-            setTimeout(() => {
+            // 2. Prepare Data
+            const formData = new FormData(leadForm);
+            const data = {
+                agency_name: formData.get('agency'),
+                email: formData.get('email'),
+                timestamp: new Date().toISOString(),
+                lang: currentLang,
+                source: 'landing_page_v1'
+            };
+
+            try {
+                // 3. Send Data
+                // Note: If URL is placeholder, we simulate success for demo purposes
+                // but log the data to console.
+                if (WEBHOOK_URL === "YOUR_WEBHOOK_URL_HERE") {
+                    console.warn("⚠️ WEBHOOK_URL is not set. Simulating success. Data:", data);
+                    await new Promise(r => setTimeout(r, 1500)); // Fake network delay
+                } else {
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) throw new Error('Network response was not ok');
+                }
+
+                // 4. Success State
                 alert(successText);
+                leadForm.reset();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert("Hubo un error al enviar. Por favor intenta de nuevo o contáctanos por WhatsApp.");
+            } finally {
+                // 5. Reset UI
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
-                leadForm.reset();
-            }, 2500);
+            }
         });
     }
 

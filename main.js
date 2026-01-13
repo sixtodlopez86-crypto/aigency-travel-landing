@@ -88,7 +88,7 @@ const translations = {
         footer_desc: "Transformamos agencias de viajes en potencias tecnológicas impulsadas por ROI.",
         footer_links_title: "Enlaces Rápidos",
         footer_contact_title: "Contacto Corporativo",
-        footer_copyright: "&copy; 2026 AIgency Boost. Todos los derechos reservados. | \"Boost Your Future with AI\"",
+        footer_copyright: "&copy; 2026 AIgency Boost. Todos los derechos reservados. | \"Boost Your Future with AI\""
     },
     en: {
         nav_problem: "The Bottleneck",
@@ -117,7 +117,7 @@ const translations = {
         comp_manual_row1: "3.5 Quotes/Day",
 
         comp_row2: "Proposal Speed",
-        comp_ab_row2: "8 Minutes (AI)",
+        comp_ab_row2: "8 Minutes (IA)",
         comp_other_row2: "Rigid Templates",
         comp_manual_row2: "3 Hours (Manual)",
 
@@ -183,30 +183,30 @@ const translations = {
 };
 
 // Language Toggle Logic
-let currentLang = localStorage.getItem('lang') || 'es';
+let currentLang = localStorage.getItem(\'lang\') || \'es\';
 
 function updateLanguage(lang) {
     // 1. Text Content Update
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
+    document.querySelectorAll(\'[data-i18n]\').forEach(element =\u003e {
+        const key = element.getAttribute(\'data-i18n\');
         if (translations[lang][key]) {
             element.innerHTML = translations[lang][key];
         }
     });
 
     // 2. Placeholder Attribute Update
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-        const key = element.getAttribute('data-i18n-placeholder');
+    document.querySelectorAll(\'[data-i18n-placeholder]\').forEach(element =\u003e {
+        const key = element.getAttribute(\'data-i18n-placeholder\');
         if (translations[lang][key]) {
             element.placeholder = translations[lang][key];
         }
     });
 
     // 3. Toggle Button UI Update
-    const langIcon = document.getElementById('langIcon');
-    const langText = document.getElementById('langText');
-    if (langIcon && langText) {
-        if (lang === 'es') {
+    const langIcon = document.getElementById(\'langIcon\');
+    const langText = document.getElementById(\'langText\');
+    if (langIcon \u0026\u0026 langText) {
+        if (lang === \'es\') {
             langIcon.src = "https://flagcdn.com/w20/es.png";
             langIcon.alt = "ES";
             langText.innerText = "ES";
@@ -221,62 +221,62 @@ function updateLanguage(lang) {
     document.documentElement.lang = lang;
 
     // 5. Save Preference
-    localStorage.setItem('lang', lang);
+    localStorage.setItem(\'lang\', lang);
     currentLang = lang;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener(\'DOMContentLoaded\', () => {
     // Initialize Language
     updateLanguage(currentLang);
 
     // Toggle Event Listener
-    const langBtn = document.getElementById('langToggle');
+    const langBtn = document.getElementById(\'langToggle\');
     if (langBtn) {
-        langBtn.addEventListener('click', () => {
-            const newLang = currentLang === 'es' ? 'en' : 'es';
+        langBtn.addEventListener(\'click\', () => {
+            const newLang = currentLang === \'es\' ? \'en\' : \'es\';
             updateLanguage(newLang);
         });
     }
 
     // Header Scroll Effect
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
+    const header = document.getElementById(\'header\');
+    window.addEventListener(\'scroll\', () => {
+        if (window.scrollY \u003e 50) {
+            header.classList.add(\'scrolled\');
         } else {
-            header.classList.remove('scrolled');
+            header.classList.remove(\'scrolled\');
         }
     });
 
     // Staggered Reveal Animations
     const observerOptions = {
         threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: \'0px 0px -50px 0px\'
     };
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach(entry =\u003e {
             if (entry.isIntersecting) {
-                entry.target.classList.add('active');
+                entry.target.classList.add(\'active\');
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll(\'.reveal\').forEach(el =\u003e observer.observe(el));
 
     // Lead Form Submission
-    const leadForm = document.getElementById('leadForm');
+    const leadForm = document.getElementById(\'leadForm\');
     // ⚠️ TODO: Replace with your Production CRM URL
     const WEBHOOK_URL = "https://aigency-boost-crm.vercel.app/api/leads";
 
     if (leadForm) {
-        leadForm.addEventListener('submit', async (e) => {
+        leadForm.addEventListener(\'submit\', async (e) => {
             e.preventDefault();
-            const submitBtn = leadForm.querySelector('button[type="submit"]');
+            const submitBtn = leadForm.querySelector(\'button[type="submit"]\');
 
-            const submittingText = translations[currentLang]['form_submitting'];
-            const successText = translations[currentLang]['form_success'];
-            const originalTextKey = submitBtn.getAttribute('data-i18n');
+            const submittingText = translations[currentLang][\'form_submitting\'];
+            const successText = translations[currentLang][\'form_success\'];
+            const originalTextKey = submitBtn.getAttribute(\'data-i18n\');
             const originalText = translations[currentLang][originalTextKey] || submitBtn.innerText;
 
             // 1. Lock UI
@@ -285,15 +285,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. Prepare Data
             const formData = new FormData(leadForm);
-            // Map to CRM 'leads' table columns
+            // Map to CRM \'leads\' table columns
             const data = {
-                company_name: formData.get('agency'),
-                email_corporate: formData.get('email'),
+                company_name: formData.get(\'agency\'),
+                email_corporate: formData.get(\'email\'),
                 first_name: "Lead", // Default name
                 last_name: "Web",   // Default last name
-                lead_source: 'landing_page_travel', // Custom field if you add it, or just for metadata
-                status_lead: 'Nuevo',
-                urgency_level: 'Alta', // Hot lead from landing page
+                lead_source: \'landing_page_travel\', // Custom field if you add it, or just for metadata
+                status_lead: \'Nuevo\',
+                urgency_level: \'Alta\', // Hot lead from landing page
                 bitacora: [{
                     title: "Lead Capturado",
                     desc: "Origen: Landing Page Agencias de Viaje",
@@ -305,21 +305,21 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // 3. Send Data
                 const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
+                    method: \'POST\',
                     headers: {
-                        'Content-Type': 'application/json',
+                        \'Content-Type\': \'application/json\',
                     },
                     body: JSON.stringify(data)
                 });
 
-                if (!response.ok) throw new Error('Network response was not ok');
+                if (!response.ok) throw new Error(\'Network response was not ok\');
 
                 // 4. Success State
                 alert(successText);
                 leadForm.reset();
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error(\'Error:\', error);
                 alert("Hubo un error al enviar. Por favor intenta de nuevo o contáctanos por WhatsApp.");
             } finally {
                 // 5. Reset UI
@@ -330,10 +330,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    document.querySelectorAll(\'a[href^="#"]\').forEach(anchor =\u003e {
+        anchor.addEventListener(\'click\', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(this.getAttribute(\'href\'));
             if (target) {
                 const headerOffset = 80;
                 const elementPosition = target.getBoundingClientRect().top;

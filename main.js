@@ -88,7 +88,7 @@ const translations = {
         footer_desc: "Transformamos agencias de viajes en potencias tecnológicas impulsadas por ROI.",
         footer_links_title: "Enlaces Rápidos",
         footer_contact_title: "Contacto Corporativo",
-        footer_copyright: "&copy; 2026 AIgency Boost. Todos los derechos reservados. | \"Boost Your Future with AI\""
+        footer_copyright: "&copy; 2026 AIgency Boost. Todos los derechos reservados. | \"Boost Your Future with AI\"",
     },
     en: {
         nav_problem: "The Bottleneck",
@@ -266,8 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lead Form Submission
     const leadForm = document.getElementById('leadForm');
-    // ⚠️ PRE-CONFIGURED URL: Matches the 'path' in the crm_lead_workflow.json file
-    const WEBHOOK_URL = "https://n8n.srv924314.hstgr.cloud/webhook/landing-leads"; 
+    // ⚠️ TODO: Replace with your Production CRM URL
+    const WEBHOOK_URL = "https://aigency-boost-crm.vercel.app/api/leads";
 
     if (leadForm) {
         leadForm.addEventListener('submit', async (e) => {
@@ -285,32 +285,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. Prepare Data
             const formData = new FormData(leadForm);
+            // Map to CRM 'leads' table columns
             const data = {
-                agency_name: formData.get('agency'),
-                email: formData.get('email'),
-                timestamp: new Date().toISOString(),
-                lang: currentLang,
-                source: 'landing_page_v1'
+                company_name: formData.get('agency'),
+                email_corporate: formData.get('email'),
+                first_name: "Lead", // Default name
+                last_name: "Web",   // Default last name
+                lead_source: 'landing_page_travel', // Custom field if you add it, or just for metadata
+                status_lead: 'Nuevo',
+                urgency_level: 'Alta', // Hot lead from landing page
+                bitacora: [{
+                    title: "Lead Capturado",
+                    desc: "Origen: Landing Page Agencias de Viaje",
+                    time: new Date().toISOString(),
+                    icon_type: "flag"
+                }]
             };
 
             try {
                 // 3. Send Data
-                // Note: If URL is placeholder, we simulate success for demo purposes
-                // but log the data to console.
-                if (WEBHOOK_URL === "YOUR_WEBHOOK_URL_HERE") {
-                    console.warn("⚠️ WEBHOOK_URL is not set. Simulating success. Data:", data);
-                    await new Promise(r => setTimeout(r, 1500)); // Fake network delay
-                } else {
-                    const response = await fetch(WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
 
-                    if (!response.ok) throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
 
                 // 4. Success State
                 alert(successText);
